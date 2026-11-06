@@ -46,13 +46,6 @@
             margin-top: 10px;
             min-height: 1.5em;
         }
-        .card p::after {
-            content: "|";
-            animation: blink 0.7s infinite;
-        }
-        @keyframes blink {
-            50% { opacity: 0; }
-        }
         .confetti {
             position: fixed;
             width: 10px;
@@ -90,9 +83,6 @@
             height: 20px;
             background: rgba(255,255,255,0.5);
         }
-        @keyframes rise {
-            to { transform: translateY(-110vh) rotate(10deg); }
-        }
         .star {
             position: fixed;
             width: 3px;
@@ -114,6 +104,9 @@
         }
         @keyframes floatDown {
             to { transform: translateY(100vh) rotate(360deg); }
+        }
+        @keyframes rise {
+            to { transform: translateY(-110vh) rotate(10deg); }
         }
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(20px); }
@@ -142,9 +135,6 @@ May your heart be filled with joy and your life with prosperity as you navigate 
                 document.getElementById("typewriter").textContent += message.charAt(charIndex);
                 charIndex++;
                 setTimeout(typeWriter, 60);
-            } else {
-                document.querySelector(".card p").style.setProperty("display", "block");
-                const after = document.querySelector(".card p::after");
             }
         }
 
@@ -152,11 +142,8 @@ May your heart be filled with joy and your life with prosperity as you navigate 
             document.getElementById("envelope").classList.add("hidden");
             document.getElementById("card").classList.remove("hidden");
             document.getElementById("bgm").play();
-
-            // Typewriter
             setTimeout(typeWriter, 800);
 
-            // Confetti
             const colors = ["#ff6b6b", "#feca57", "#48dbfb", "#ff9ff3", "#54a0ff"];
             for (let i = 0; i < 60; i++) {
                 const c = document.createElement("div");
@@ -168,7 +155,6 @@ May your heart be filled with joy and your life with prosperity as you navigate 
                 document.body.appendChild(c);
             }
 
-            // Floating emojis
             const emojis = ["\u{1F9F8}", "\u{1F381}", "\u{1F380}", "\u{2764}\u{FE0F}", "\u{1F382}", "\u{1F495}", "\u{1F300}", "\u{2728}"];
             for (let i = 0; i < 20; i++) {
                 const e = document.createElement("div");
@@ -181,7 +167,6 @@ May your heart be filled with joy and your life with prosperity as you navigate 
                 document.body.appendChild(e);
             }
 
-            // Firecrackers
             function firecrackerBurst() {
                 const x = Math.random() * 80 + 10;
                 const y = Math.random() * 60 + 10;
@@ -206,7 +191,6 @@ May your heart be filled with joy and your life with prosperity as you navigate 
             }
             setInterval(firecrackerBurst, 2000);
 
-            // Balloons
             const balloonColors = ["#ff6b6b", "#feca57", "#48dbfb", "#ff9ff3", "#7bed9f", "#a29bfe"];
             function spawnBalloon() {
                 const b = document.createElement("div");
@@ -222,7 +206,6 @@ May your heart be filled with joy and your life with prosperity as you navigate 
             }
             setInterval(spawnBalloon, 2500);
 
-            // Twinkling stars (top half of screen)
             for (let i = 0; i < 30; i++) {
                 const s = document.createElement("div");
                 s.className = "star";
