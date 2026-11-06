@@ -11,9 +11,15 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            background: #1a1a2e;
             font-family: 'Segoe UI', sans-serif;
             overflow: hidden;
+            background: url('/static/bg.jpg') no-repeat center center;
+            background-size: cover;
+            animation: slowZoom 20s ease-in-out infinite alternate;
+        }
+        @keyframes slowZoom {
+            0% { background-size: 100%; }
+            100% { background-size: 120%; }
         }
         .envelope {
             font-size: 80px;
@@ -36,8 +42,16 @@
         }
         .card p {
             font-size: 1.1rem;
-            color: #ccc;
+            color: #fff;
             margin-top: 10px;
+            min-height: 1.5em;
+        }
+        .card p::after {
+            content: "|";
+            animation: blink 0.7s infinite;
+        }
+        @keyframes blink {
+            50% { opacity: 0; }
         }
         .confetti {
             position: fixed;
@@ -51,6 +65,49 @@
             top: -40px;
             animation: floatDown linear forwards;
             opacity: 0.8;
+        }
+        .firecracker {
+            position: fixed;
+            width: 4px;
+            height: 4px;
+            border-radius: 50%;
+            animation: burst 0.8s ease-out forwards;
+        }
+        .balloon {
+            position: fixed;
+            bottom: -60px;
+            width: 30px;
+            height: 40px;
+            border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+            animation: rise linear forwards;
+        }
+        .balloon::after {
+            content: '';
+            position: absolute;
+            bottom: -20px;
+            left: 50%;
+            width: 1px;
+            height: 20px;
+            background: rgba(255,255,255,0.5);
+        }
+        @keyframes rise {
+            to { transform: translateY(-110vh) rotate(10deg); }
+        }
+        .star {
+            position: fixed;
+            width: 3px;
+            height: 3px;
+            background: white;
+            border-radius: 50%;
+            animation: twinkle 2s ease-in-out infinite alternate;
+        }
+        @keyframes twinkle {
+            0% { opacity: 0.2; transform: scale(0.8); }
+            100% { opacity: 1; transform: scale(1.2); }
+        }
+        @keyframes burst {
+            0% { transform: translate(0, 0) scale(1); opacity: 1; }
+            100% { transform: translate(var(--tx), var(--ty)) scale(0); opacity: 0; }
         }
         @keyframes fall {
             to { transform: translateY(100vh) rotate(720deg); }
@@ -67,10 +124,8 @@
 <body>
     <div class="envelope" id="envelope" onclick="reveal()">&#127873;</div>
     <div class="card hidden" id="card">
-        <h1>Happy Birthday,RINGMA</h1>
-        <p>Happy Birthday! On this special day, I wish you endless happiness, career success, and the inner strength to conquer every challenge life presents. May this new chapter bring you growth, confidence, and meaningful opportunities that align with your deepest dreams.
-
-Stay strong and remember that you are capable of achieving anything you set your mind to.  May your path be filled with good health, deep joy, and abundant blessings, reminding you that your potential is limitless and your future is bright.</p>
+        <h1>Happy Birthday, RINGMA</h1>
+        <p id="typewriter"></p>
     </div>
 
     <audio id="bgm" loop>
@@ -78,11 +133,30 @@ Stay strong and remember that you are capable of achieving anything you set your
     </audio>
 
     <script>
+        const message = "May this special day mark the beginning of a year filled with good health, lasting peace, and abundant happiness. I pray that you are blessed with the wisdom and strength to overcome every challenge, turning obstacles into opportunities for growth and success.
+May your heart be filled with joy and your life with prosperity as you navigate the year ahead. I ask for divine protection over your coming and going, ensuring that you are surrounded by love, guided by grace, and equipped with the resilience to solve any problem that arises.";
+        let charIndex = 0;
+
+        function typeWriter() {
+            if (charIndex < message.length) {
+                document.getElementById("typewriter").textContent += message.charAt(charIndex);
+                charIndex++;
+                setTimeout(typeWriter, 60);
+            } else {
+                document.querySelector(".card p").style.setProperty("display", "block");
+                const after = document.querySelector(".card p::after");
+            }
+        }
+
         function reveal() {
             document.getElementById("envelope").classList.add("hidden");
             document.getElementById("card").classList.remove("hidden");
             document.getElementById("bgm").play();
 
+            // Typewriter
+            setTimeout(typeWriter, 800);
+
+            // Confetti
             const colors = ["#ff6b6b", "#feca57", "#48dbfb", "#ff9ff3", "#54a0ff"];
             for (let i = 0; i < 60; i++) {
                 const c = document.createElement("div");
@@ -94,6 +168,7 @@ Stay strong and remember that you are capable of achieving anything you set your
                 document.body.appendChild(c);
             }
 
+            // Floating emojis
             const emojis = ["\u{1F9F8}", "\u{1F381}", "\u{1F380}", "\u{2764}\u{FE0F}", "\u{1F382}", "\u{1F495}", "\u{1F300}", "\u{2728}"];
             for (let i = 0; i < 20; i++) {
                 const e = document.createElement("div");
@@ -104,6 +179,58 @@ Stay strong and remember that you are capable of achieving anything you set your
                 e.style.animationDuration = (Math.random() * 3 + 3) + "s";
                 e.style.animationDelay = Math.random() * 2 + "s";
                 document.body.appendChild(e);
+            }
+
+            // Firecrackers
+            function firecrackerBurst() {
+                const x = Math.random() * 80 + 10;
+                const y = Math.random() * 60 + 10;
+                const burstColors = ["#ff6b6b", "#feca57", "#48dbfb", "#ff9ff3", "#ffbe76", "#7bed9f"];
+                const color = burstColors[Math.floor(Math.random() * burstColors.length)];
+                for (let i = 0; i < 12; i++) {
+                    const p = document.createElement("div");
+                    p.className = "firecracker";
+                    const angle = (i / 12) * 360;
+                    const dist = Math.random() * 60 + 30;
+                    p.style.left = x + "vw";
+                    p.style.top = y + "vh";
+                    p.style.background = color;
+                    p.style.setProperty("--tx", Math.cos(angle * Math.PI / 180) * dist + "px");
+                    p.style.setProperty("--ty", Math.sin(angle * Math.PI / 180) * dist + "px");
+                    document.body.appendChild(p);
+                    setTimeout(() => p.remove(), 800);
+                }
+            }
+            for (let i = 0; i < 8; i++) {
+                setTimeout(firecrackerBurst, i * 600);
+            }
+            setInterval(firecrackerBurst, 2000);
+
+            // Balloons
+            const balloonColors = ["#ff6b6b", "#feca57", "#48dbfb", "#ff9ff3", "#7bed9f", "#a29bfe"];
+            function spawnBalloon() {
+                const b = document.createElement("div");
+                b.className = "balloon";
+                b.style.left = Math.random() * 90 + "vw";
+                b.style.background = balloonColors[Math.floor(Math.random() * balloonColors.length)];
+                b.style.animationDuration = (Math.random() * 4 + 5) + "s";
+                document.body.appendChild(b);
+                setTimeout(() => b.remove(), 9000);
+            }
+            for (let i = 0; i < 6; i++) {
+                setTimeout(spawnBalloon, i * 800);
+            }
+            setInterval(spawnBalloon, 2500);
+
+            // Twinkling stars (top half of screen)
+            for (let i = 0; i < 30; i++) {
+                const s = document.createElement("div");
+                s.className = "star";
+                s.style.left = Math.random() * 100 + "vw";
+                s.style.top = Math.random() * 40 + "vh";
+                s.style.animationDelay = Math.random() * 2 + "s";
+                s.style.animationDuration = (Math.random() * 1.5 + 1) + "s";
+                document.body.appendChild(s);
             }
         }
     </script>
