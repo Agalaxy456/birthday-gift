@@ -58,14 +58,21 @@
 <body>
     <div class="envelope" id="envelope" onclick="reveal()">&#127873;</div>
     <div class="card hidden" id="card">
-        <h1>Happy Birthday, [HER NAME]!</h1>
-        <p>[Your message here]</p>
+        <h1>Happy Birthday, RINGMA!</h1>
+        <p>Happy Birthday! On this special day, I wish you endless happiness, career success, and the inner strength to conquer every challenge life presents. May this new chapter bring you growth, confidence, and meaningful opportunities that align with your deepest dreams.
+
+Stay strong and remember that you are capable of achieving anything you set your mind to.  May your path be filled with good health, deep joy, and abundant blessings, reminding you that your potential is limitless and your future is bright.</p>
     </div>
+
+    <audio id="bgm" loop>
+        <source src="/static/shimmer.mp3" type="audio/mpeg">
+    </audio>
 
     <script>
         function reveal() {
             document.getElementById("envelope").classList.add("hidden");
             document.getElementById("card").classList.remove("hidden");
+            document.getElementById("bgm").play();
             const colors = ["#ff6b6b", "#feca57", "#48dbfb", "#ff9ff3", "#54a0ff"];
             for (let i = 0; i < 60; i++) {
                 const c = document.createElement("div");
