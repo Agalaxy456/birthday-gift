@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: #1a1a2e;
+            font-family: 'Segoe UI', sans-serif;
+            overflow: hidden;
+        }
+        .envelope {
+            font-size: 80px;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+        .envelope:hover { transform: scale(1.2); }
+        .hidden { display: none; }
+        .card {
+            text-align: center;
+            color: white;
+            animation: fadeIn 1s ease;
+        }
+        .card h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            background: linear-gradient(45deg, #ff6b6b, #feca57, #48dbfb);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .card p {
+            font-size: 1.1rem;
+            color: #ccc;
+            margin-top: 10px;
+        }
+        .confetti {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            top: -10px;
+            animation: fall linear forwards;
+        }
+        @keyframes fall {
+            to { transform: translateY(100vh) rotate(720deg); }
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+    <div class="envelope" id="envelope" onclick="reveal()">&#127873;</div>
+    <div class="card hidden" id="card">
+        <h1>Happy Birthday, [HER NAME]!</h1>
+        <p>[Your message here]</p>
+    </div>
+
+    <script>
+        function reveal() {
+            document.getElementById("envelope").classList.add("hidden");
+            document.getElementById("card").classList.remove("hidden");
+            const colors = ["#ff6b6b", "#feca57", "#48dbfb", "#ff9ff3", "#54a0ff"];
+            for (let i = 0; i < 60; i++) {
+                const c = document.createElement("div");
+                c.className = "confetti";
+                c.style.left = Math.random() * 100 + "vw";
+                c.style.background = colors[Math.floor(Math.random() * colors.length)];
+                c.style.animationDuration = (Math.random() * 2 + 1) + "s";
+                c.style.animationDelay = Math.random() * 0.5 + "s";
+                document.body.appendChild(c);
+            }
+        }
+    </script>
+</body>
+</html>
