@@ -46,8 +46,17 @@
             top: -10px;
             animation: fall linear forwards;
         }
+        .floating-emoji {
+            position: fixed;
+            top: -40px;
+            animation: floatDown linear forwards;
+            opacity: 0.8;
+        }
         @keyframes fall {
             to { transform: translateY(100vh) rotate(720deg); }
+        }
+        @keyframes floatDown {
+            to { transform: translateY(100vh) rotate(360deg); }
         }
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(20px); }
@@ -58,7 +67,7 @@
 <body>
     <div class="envelope" id="envelope" onclick="reveal()">&#127873;</div>
     <div class="card hidden" id="card">
-        <h1>Happy Birthday, RINGMA!</h1>
+        <h1>Happy Birthday,RINGMA</h1>
         <p>Happy Birthday! On this special day, I wish you endless happiness, career success, and the inner strength to conquer every challenge life presents. May this new chapter bring you growth, confidence, and meaningful opportunities that align with your deepest dreams.
 
 Stay strong and remember that you are capable of achieving anything you set your mind to.  May your path be filled with good health, deep joy, and abundant blessings, reminding you that your potential is limitless and your future is bright.</p>
@@ -73,6 +82,7 @@ Stay strong and remember that you are capable of achieving anything you set your
             document.getElementById("envelope").classList.add("hidden");
             document.getElementById("card").classList.remove("hidden");
             document.getElementById("bgm").play();
+
             const colors = ["#ff6b6b", "#feca57", "#48dbfb", "#ff9ff3", "#54a0ff"];
             for (let i = 0; i < 60; i++) {
                 const c = document.createElement("div");
@@ -83,7 +93,19 @@ Stay strong and remember that you are capable of achieving anything you set your
                 c.style.animationDelay = Math.random() * 0.5 + "s";
                 document.body.appendChild(c);
             }
+
+            const emojis = ["\u{1F9F8}", "\u{1F381}", "\u{1F380}", "\u{2764}\u{FE0F}", "\u{1F382}", "\u{1F495}", "\u{1F300}", "\u{2728}"];
+            for (let i = 0; i < 20; i++) {
+                const e = document.createElement("div");
+                e.className = "floating-emoji";
+                e.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+                e.style.left = Math.random() * 90 + "vw";
+                e.style.fontSize = (Math.random() * 20 + 20) + "px";
+                e.style.animationDuration = (Math.random() * 3 + 3) + "s";
+                e.style.animationDelay = Math.random() * 2 + "s";
+                document.body.appendChild(e);
+            }
         }
     </script>
 </body>
-</html>
+</html>   
