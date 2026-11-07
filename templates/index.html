@@ -14,18 +14,12 @@
             align-items: center;
             font-family: 'Segoe UI', sans-serif;
             overflow: hidden;
-            background: url('/static/bg.jpg') no-repeat center center fixed;
-            background-size: cover;
-            animation: slowZoom 20s ease-in-out infinite alternate;
-        }
-        @keyframes slowZoom {
-            0% { background-size: 100%; }
-            100% { background-size: 120%; }
         }
         .envelope {
             font-size: 80px;
             cursor: pointer;
             transition: transform 0.3s;
+            z-index: 10;
         }
         .envelope:hover { transform: scale(1.2); }
         .hidden { display: none; }
@@ -34,6 +28,7 @@
             color: white;
             animation: fadeIn 1s ease;
             max-width: 90vw;
+            z-index: 10;
         }
         .card h1 {
             font-size: 2.5rem;
@@ -132,9 +127,10 @@
     </style>
 </head>
 <body>
+    <img src="/static/bg.jpg" style="position:fixed; top:0; left:0; width:100vw; height:100vh; object-fit:cover; z-index:-1;">
     <div class="envelope" id="envelope" onclick="reveal()">&#127873;</div>
     <div class="card hidden" id="card">
-        <h1>Happy Birthday, [HER NAME]!</h1>
+        <h1>Happy Birthday, RINGMA</h1>
         <p id="typewriter"></p>
     </div>
 
@@ -160,7 +156,6 @@
             document.getElementById("bgm").play();
             setTimeout(typeWriter, 800);
 
-            // Confetti
             const colors = ["#ff6b6b", "#feca57", "#48dbfb", "#ff9ff3", "#54a0ff"];
             for (let i = 0; i < 60; i++) {
                 const c = document.createElement("div");
@@ -172,7 +167,6 @@
                 document.body.appendChild(c);
             }
 
-            // Floating emojis
             const emojis = ["\u{1F9F8}", "\u{1F381}", "\u{1F380}", "\u{2764}\u{FE0F}", "\u{1F382}", "\u{1F495}", "\u{1F300}", "\u{2728}"];
             for (let i = 0; i < 20; i++) {
                 const e = document.createElement("div");
@@ -185,7 +179,6 @@
                 document.body.appendChild(e);
             }
 
-            // Firecrackers (bigger, glowing, more particles)
             function firecrackerBurst() {
                 const x = Math.random() * 80 + 10;
                 const y = Math.random() * 60 + 10;
@@ -211,7 +204,6 @@
             }
             setInterval(firecrackerBurst, 1500);
 
-            // Balloons (bigger, with shine, wobbly rise)
             const balloonColors = ["#ff6b6b", "#feca57", "#48dbfb", "#ff9ff3", "#7bed9f", "#a29bfe", "#ffbe76", "#fd79a8"];
             function spawnBalloon() {
                 const b = document.createElement("div");
@@ -227,249 +219,6 @@
             }
             setInterval(spawnBalloon, 2000);
 
-            // Twinkling stars
-            for (let i = 0; i < 30; i++) {
-                const s = document.createElement("div");
-                s.className = "star";
-                s.style.left = Math.random() * 100 + "vw";
-                s.style.top = Math.random() * 40 + "vh";
-                s.style.animationDelay = Math.random() * 2 + "s";
-                s.style.animationDuration = (Math.random() * 1.5 + 1) + "s";
-                document.body.appendChild(s);
-            }
-        }
-    </script>
-</body>
-</html>   <!DOCTYPE html>
-<html>
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Happy Birthday</title>
-    <style>
-        html { background: #1a1a2e; }
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body {
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-family: 'Segoe UI', sans-serif;
-            overflow: hidden;
-            background: url('/static/bg.jpg') no-repeat center center fixed;
-            background-size: cover;
-            animation: slowZoom 20s ease-in-out infinite alternate;
-        }
-        @keyframes slowZoom {
-            0% { background-size: 100%; }
-            100% { background-size: 120%; }
-        }
-        .envelope {
-            font-size: 80px;
-            cursor: pointer;
-            transition: transform 0.3s;
-        }
-        .envelope:hover { transform: scale(1.2); }
-        .hidden { display: none; }
-        .card {
-            text-align: center;
-            color: white;
-            animation: fadeIn 1s ease;
-            max-width: 90vw;
-        }
-        .card h1 {
-            font-size: 2.5rem;
-            margin-bottom: 10px;
-            background: linear-gradient(45deg, #ff6b6b, #feca57, #48dbfb);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        .card p {
-            font-size: 1.1rem;
-            color: #fff;
-            margin-top: 10px;
-            min-height: 1.5em;
-        }
-        .confetti {
-            position: fixed;
-            width: 10px;
-            height: 10px;
-            top: -10px;
-            animation: fall linear forwards;
-        }
-        .floating-emoji {
-            position: fixed;
-            top: -40px;
-            animation: floatDown linear forwards;
-            opacity: 0.8;
-        }
-        .firecracker {
-            position: fixed;
-            width: 5px;
-            height: 5px;
-            border-radius: 50%;
-            animation: burst 1s ease-out forwards;
-            box-shadow: 0 0 6px 2px currentColor;
-        }
-        .balloon {
-            position: fixed;
-            bottom: -80px;
-            width: 40px;
-            height: 52px;
-            border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
-            animation: riseBalloon linear forwards;
-        }
-        .balloon::after {
-            content: '';
-            position: absolute;
-            bottom: -25px;
-            left: 50%;
-            width: 1px;
-            height: 25px;
-            background: rgba(255,255,255,0.4);
-        }
-        .balloon::before {
-            content: '';
-            position: absolute;
-            top: 8px;
-            left: 8px;
-            width: 10px;
-            height: 14px;
-            background: rgba(255,255,255,0.3);
-            border-radius: 50%;
-        }
-        .star {
-            position: fixed;
-            width: 3px;
-            height: 3px;
-            background: white;
-            border-radius: 50%;
-            animation: twinkle 2s ease-in-out infinite alternate;
-        }
-        @keyframes twinkle {
-            0% { opacity: 0.2; transform: scale(0.8); }
-            100% { opacity: 1; transform: scale(1.2); }
-        }
-        @keyframes burst {
-            0% { transform: translate(0, 0) scale(1); opacity: 1; }
-            100% { transform: translate(var(--tx), var(--ty)) scale(0); opacity: 0; }
-        }
-        @keyframes fall {
-            to { transform: translateY(100vh) rotate(720deg); }
-        }
-        @keyframes floatDown {
-            to { transform: translateY(100vh) rotate(360deg); }
-        }
-        @keyframes riseBalloon {
-            0% { transform: translateY(0) translateX(0); }
-            25% { transform: translateY(-25vh) translateX(15px); }
-            50% { transform: translateY(-50vh) translateX(-10px); }
-            75% { transform: translateY(-75vh) translateX(10px); }
-            100% { transform: translateY(-110vh) translateX(-5px); }
-        }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-    </style>
-</head>
-<body>
-    <div class="envelope" id="envelope" onclick="reveal()">&#127873;</div>
-    <div class="card hidden" id="card">
-        <h1>Happy Birthday, [HER NAME]!</h1>
-        <p id="typewriter"></p>
-    </div>
-
-    <audio id="bgm" loop>
-        <source src="/static/shimmer.mp3" type="audio/mpeg">
-    </audio>
-
-    <script>
-        const message = "Wishing you a wonderful year ahead filled with long-term prosperity, robust good health, and the wisdom and strength to overcome every challenge life throws your way. May every obstacle you face become a stepping stone to growth, every effort bring rewarding results, and every day bring fresh opportunities for success and happiness. May your goals align with your passions, your mind stay sharp, and you always find the courage to take that one step forward when the path feels uncertain. May your spirit stay unbreakable through every season of life, and may each new day bring you closer to the person you\'re meant to become.";
-        let charIndex = 0;
-
-        function typeWriter() {
-            if (charIndex < message.length) {
-                document.getElementById("typewriter").textContent += message.charAt(charIndex);
-                charIndex++;
-                setTimeout(typeWriter, 60);
-            }
-        }
-
-        function reveal() {
-            document.getElementById("envelope").classList.add("hidden");
-            document.getElementById("card").classList.remove("hidden");
-            document.getElementById("bgm").play();
-            setTimeout(typeWriter, 800);
-
-            // Confetti
-            const colors = ["#ff6b6b", "#feca57", "#48dbfb", "#ff9ff3", "#54a0ff"];
-            for (let i = 0; i < 60; i++) {
-                const c = document.createElement("div");
-                c.className = "confetti";
-                c.style.left = Math.random() * 100 + "vw";
-                c.style.background = colors[Math.floor(Math.random() * colors.length)];
-                c.style.animationDuration = (Math.random() * 2 + 1) + "s";
-                c.style.animationDelay = Math.random() * 0.5 + "s";
-                document.body.appendChild(c);
-            }
-
-            // Floating emojis
-            const emojis = ["\u{1F9F8}", "\u{1F381}", "\u{1F380}", "\u{2764}\u{FE0F}", "\u{1F382}", "\u{1F495}", "\u{1F300}", "\u{2728}"];
-            for (let i = 0; i < 20; i++) {
-                const e = document.createElement("div");
-                e.className = "floating-emoji";
-                e.textContent = emojis[Math.floor(Math.random() * emojis.length)];
-                e.style.left = Math.random() * 90 + "vw";
-                e.style.fontSize = (Math.random() * 20 + 20) + "px";
-                e.style.animationDuration = (Math.random() * 3 + 3) + "s";
-                e.style.animationDelay = Math.random() * 2 + "s";
-                document.body.appendChild(e);
-            }
-
-            // Firecrackers (bigger, glowing, more particles)
-            function firecrackerBurst() {
-                const x = Math.random() * 80 + 10;
-                const y = Math.random() * 60 + 10;
-                const burstColors = ["#ff6b6b", "#feca57", "#48dbfb", "#ff9ff3", "#ffbe76", "#7bed9f", "#a29bfe", "#ffd700"];
-                const color = burstColors[Math.floor(Math.random() * burstColors.length)];
-                for (let i = 0; i < 20; i++) {
-                    const p = document.createElement("div");
-                    p.className = "firecracker";
-                    const angle = (i / 20) * 360;
-                    const dist = Math.random() * 80 + 40;
-                    p.style.left = x + "vw";
-                    p.style.top = y + "vh";
-                    p.style.background = color;
-                    p.style.color = color;
-                    p.style.setProperty("--tx", Math.cos(angle * Math.PI / 180) * dist + "px");
-                    p.style.setProperty("--ty", Math.sin(angle * Math.PI / 180) * dist + "px");
-                    document.body.appendChild(p);
-                    setTimeout(() => p.remove(), 1000);
-                }
-            }
-            for (let i = 0; i < 10; i++) {
-                setTimeout(firecrackerBurst, i * 500);
-            }
-            setInterval(firecrackerBurst, 1500);
-
-            // Balloons (bigger, with shine, wobbly rise)
-            const balloonColors = ["#ff6b6b", "#feca57", "#48dbfb", "#ff9ff3", "#7bed9f", "#a29bfe", "#ffbe76", "#fd79a8"];
-            function spawnBalloon() {
-                const b = document.createElement("div");
-                b.className = "balloon";
-                b.style.left = Math.random() * 90 + "vw";
-                b.style.background = balloonColors[Math.floor(Math.random() * balloonColors.length)];
-                b.style.animationDuration = (Math.random() * 3 + 6) + "s";
-                document.body.appendChild(b);
-                setTimeout(() => b.remove(), 10000);
-            }
-            for (let i = 0; i < 8; i++) {
-                setTimeout(spawnBalloon, i * 600);
-            }
-            setInterval(spawnBalloon, 2000);
-
-            // Twinkling stars
             for (let i = 0; i < 30; i++) {
                 const s = document.createElement("div");
                 s.className = "star";
